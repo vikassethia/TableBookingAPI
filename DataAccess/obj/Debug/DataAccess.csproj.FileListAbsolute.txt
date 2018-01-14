@@ -1,0 +1,4 @@
+C:\Projects\TableBookingAPI\DataAccess\bin\Debug\DataAccess.dll
+C:\Projects\TableBookingAPI\DataAccess\bin\Debug\DataAccess.pdb
+C:\Projects\TableBookingAPI\DataAccess\obj\Debug\DataAccess.dll
+C:\Projects\TableBookingAPI\DataAccess\obj\Debug\DataAccess.pdb

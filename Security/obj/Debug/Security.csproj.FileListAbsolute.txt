@@ -1,0 +1,4 @@
+C:\Projects\TableBookingAPI\Security\bin\Debug\Security.dll
+C:\Projects\TableBookingAPI\Security\bin\Debug\Security.pdb
+C:\Projects\TableBookingAPI\Security\obj\Debug\Security.dll
+C:\Projects\TableBookingAPI\Security\obj\Debug\Security.pdb

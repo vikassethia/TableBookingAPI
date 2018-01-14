@@ -1,0 +1,9 @@
+C:\Projects\TableBookingAPI\BusinessLogic\bin\Debug\BusinessLogic.dll
+C:\Projects\TableBookingAPI\BusinessLogic\bin\Debug\BusinessLogic.pdb
+C:\Projects\TableBookingAPI\BusinessLogic\bin\Debug\DataAccess.dll
+C:\Projects\TableBookingAPI\BusinessLogic\bin\Debug\Security.dll
+C:\Projects\TableBookingAPI\BusinessLogic\bin\Debug\DataAccess.pdb
+C:\Projects\TableBookingAPI\BusinessLogic\bin\Debug\Security.pdb
+C:\Projects\TableBookingAPI\BusinessLogic\obj\Debug\BusinessLogic.csprojResolveAssemblyReference.cache
+C:\Projects\TableBookingAPI\BusinessLogic\obj\Debug\BusinessLogic.dll
+C:\Projects\TableBookingAPI\BusinessLogic\obj\Debug\BusinessLogic.pdb
