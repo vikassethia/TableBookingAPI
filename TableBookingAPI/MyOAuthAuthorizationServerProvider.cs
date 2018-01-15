@@ -19,13 +19,14 @@ namespace TableBookingAPI
         {
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
-            //if (context.UserName == "admin" && context.Password == "admin")
-            //{
-            //    identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
-            //    identity.AddClaim(new Claim("username", "admin"));
-            //    identity.AddClaim(new Claim(ClaimTypes.Name, "Vikas Sethia"));
-            //    context.Validated(identity);
-            //}
+            if (context.UserName == "admin" && context.Password == "admin")
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                identity.AddClaim(new Claim("username", "admin"));
+                identity.AddClaim(new Claim(ClaimTypes.Name, "Vikas Sethia"));
+                context.Validated(identity);
+                return;
+            }
             var bookingBl = new Auth();
             User userIdentity;
             if (bookingBl.IsUserAuthorized(context.UserName, context.Password, out userIdentity))
