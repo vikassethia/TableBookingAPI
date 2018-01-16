@@ -160,6 +160,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AuthorizeAttribute.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -181,7 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +192,10 @@
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{496e19b9-7601-4cea-ba6f-49cdc432d6ab}</Project>
       <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{5ece5785-a554-4cc1-ae80-d694bc58d937}</Project>
+      <Name>Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Security\Security.csproj">
       <Project>{ca75d343-756a-4a03-96e4-3018e1bbdd1b}</Project>
