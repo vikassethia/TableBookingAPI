@@ -74,7 +74,7 @@ namespace DataAccess
             }
             catch (MySqlException ex)
             {
-                throw;               
+                throw;
             }
         }
 
@@ -93,15 +93,15 @@ namespace DataAccess
         {
         }
 
-        //Select statement
-        public List<string>[] Select()
-        {
-        }
+        ////Select statement
+        //public List<string>[] Select()
+        //{
+        //}
 
-        //Count statement
-        public int Count()
-        {
-        }
+        ////Count statement
+        //public int Count()
+        //{
+        //}
 
         //Backup
         public void Backup()
