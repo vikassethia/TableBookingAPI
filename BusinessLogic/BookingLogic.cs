@@ -34,7 +34,7 @@ namespace BusinessLogic
 
             foreach(var item in tableNumbers)
             {
-                response.Add(new TableInfo() { TableNumber=item, Seats=2, Shape="Square"});
+                response.Add(new TableInfo() { TableNumber=item, Capacity=2, Shape="Square"});
             }
 
 
