@@ -55,6 +55,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
@@ -71,6 +72,13 @@
     <Compile Include="DataAccessClass.cs" />
     <Compile Include="DbConnect.cs" />
     <Compile Include="IDataAccessClass.cs" />
+    <Compile Include="Model\bookedtable.cs" />
+    <Compile Include="Model\booking.cs" />
+    <Compile Include="Model\TableBookingModel.cs" />
+    <Compile Include="Model\tableinfo.cs" />
+    <Compile Include="Model\tableshape.cs" />
+    <Compile Include="Model\user.cs" />
+    <Compile Include="Model\userrole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +100,7 @@
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
