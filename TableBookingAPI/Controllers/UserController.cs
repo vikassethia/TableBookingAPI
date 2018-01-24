@@ -14,6 +14,11 @@ namespace TableBookingAPI.Controllers
 {
     public class UserController : ApiController
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userRequest"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         [Route("api/user/add")]
@@ -23,8 +28,13 @@ namespace TableBookingAPI.Controllers
 
             try
             {
-                // Inheritance security rules violated by type: 'MySql.Data.MySqlClient.MySqlProviderServices'. Derived types must either match the security accessibility of the base type or be less accessible
-                // https://stackoverflow.com/questions/47227495/inheritance-security-rules-violated-by-type-mysql-data-entity-mysqlefconfigura
+                //{
+                //    "UserId": "vikas.sethia21@gmail.com",
+                //  "FirstName": "Vikas",
+                //  "LastName": "Sethia",
+                //  "Password": "Pass@123",
+                //  "userRole": "Admin"
+                //}
 
                 var userBL = new Auth();
                 userBL.AddNewUser(userRequest);

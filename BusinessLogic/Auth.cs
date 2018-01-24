@@ -44,7 +44,7 @@ namespace BusinessLogic
 
            
             var salt = Guid.NewGuid();
-            var userRole = _dataAccess.GetUserRole("Employee");
+            var userRole = _dataAccess.GetUserRole(userRequest.userRole);
 
             var passCrypto = new PasswordCryptography();
             var passwordHash = passCrypto.GetPasswordHash(salt, userRequest.Password);

@@ -105,3 +105,7 @@ INSERT INTO `tablebooking`.`tableinfo`(`TableNumber`,`Capacity`,`ShapeId`,`Xposi
 INSERT INTO `tablebooking`.`tableinfo`(`TableNumber`,`Capacity`,`ShapeId`,`Xposition`,`Yposition`,`IsBookable`,`IsDeleted`) VALUES (4,4,2,null,null,1,0);
 INSERT INTO `tablebooking`.`tableinfo`(`TableNumber`,`Capacity`,`ShapeId`,`Xposition`,`Yposition`,`IsBookable`,`IsDeleted`) VALUES (5,4,3,null,null,1,0);
 INSERT INTO `tablebooking`.`tableinfo`(`TableNumber`,`Capacity`,`ShapeId`,`Xposition`,`Yposition`,`IsBookable`,`IsDeleted`) VALUES (6,4,3,null,null,1,0);
+
+ALTER TABLE `tablebooking`.`users` 
+ADD column FirstName varchar(50) ,
+ADD column LastName varchar(50) ;
