@@ -1,32 +1,19 @@
 ﻿using System;
+using DataAccess.Model;
+using System.Collections.Generic;
 
 namespace DataAccess
 {
     public interface IDataAccessClass
     {
-        void AddNewUser(User user);  
-        User GetLoggedInUser(string userId);
-        UserRole GetUserRole(string userRole);
-    }
+        void AddNewUser(user user);  
+        user GetLoggedInUser(string userId);
+        userrole GetUserRole(string userRole);
+        void AddNewBooking(booking newBooking);
+        void AddNewBooking(booking newBooking, List<bookedtable> bookedTableList);
+        List<booking> GetBookingOnDate(DateTime bookingDate);
+        List<tableinfo> GetTableList();
+    }   
 
-    public class UserRole
-    {
-        public System.Guid UserRoleID { get; set; }
-        public string UserRoleName { get; set; }
-
-    }
-
-    public class User
-    {
-        public string UserId { get; set; }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PasswordHash { get; set; }
-        public System.Guid Salt { get; set; }
-        public System.Guid UserRoleID { get; set; }
-        public bool IsActive { get; set; }
-        public System.DateTime AddeddOn { get; set; }       
-        public virtual UserRole UserRole { get; set; }
-    }
+  
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DataAccess;
 using Microsoft.Owin.Security.OAuth;
 using BusinessLogic;
+using DataAccess.Model;
 
 namespace TableBookingAPI
 {
@@ -28,10 +29,10 @@ namespace TableBookingAPI
                 return;
             }
             var bookingBl = new Auth();
-            User userIdentity;
+            user userIdentity;
             if (bookingBl.IsUserAuthorized(context.UserName, context.Password, out userIdentity))
             {
-                identity.AddClaim(new Claim(ClaimTypes.Role, userIdentity.UserRole.UserRoleName));
+                identity.AddClaim(new Claim(ClaimTypes.Role, userIdentity.userrole.UserRoleName));
                 identity.AddClaim(new Claim("username", userIdentity.UserId));
                 identity.AddClaim(new Claim(ClaimTypes.Name, userIdentity.UserId));
                 identity.AddClaim(new Claim(ClaimTypes.GivenName, userIdentity.FirstName));

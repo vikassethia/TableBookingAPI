@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Entities;
+using DataAccess.Model;
 using BusinessLogic;
 using System.Security.Claims;
 using System.Data.Common;
@@ -16,16 +16,20 @@ namespace TableBookingAPI.Controllers
     {
         [Authorize]
         [HttpPost]
-        [Route("api/post/booking")]
-        public HttpResponseMessage BookTable(Booking bookTableRequest)
+        [Route("api/booking/add")]
+        public HttpResponseMessage BookTable(booking bookTableRequest)
         {
             if (bookTableRequest == null) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(bookTableRequest))); }
 
             try
             {
                 var identity = (ClaimsIdentity)User.Identity;
+                if(string.IsNullOrEmpty(bookTableRequest.BookedBy))
+                {
+                    bookTableRequest.BookedBy = identity.Name;
+                }
                 var bookingBL = new BookingLogic();
-                bookingBL.BookTable(bookTableRequest);
+                bookingBL.AddNewBooking(bookTableRequest);
 
             }
             catch (DbException ex)
@@ -51,8 +55,8 @@ namespace TableBookingAPI.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet]
-        [Route("api/get/booking")]
-        public List<Booking> GetBooking(DateTime bookingDateRequest)
+        [Route("api/booking/getbydate")]
+        public List<booking> GetBooking(DateTime bookingDateRequest)
         {
             if (bookingDateRequest == null) { bookingDateRequest = DateTime.Now; }
 

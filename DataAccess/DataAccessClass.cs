@@ -3,24 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Model;
 
 namespace DataAccess
 {
     public class DataAccessClass : IDataAccessClass
     {
-        public void AddNewUser(User user)
+        private readonly TableBookingModel _context;
+
+        public DataAccessClass(TableBookingModel context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public void AddNewUser(user user)
+        {
+            _context.users.Add(user);
+            _context.SaveChanges();
         }
 
-        public User GetLoggedInUser(string userId)
+        public user GetLoggedInUser(string userId)
         {
-            throw new NotImplementedException();
+            return _context.users.FirstOrDefault(u => u.UserId.Equals(userId));
         }
 
-        public UserRole GetUserRole(string userRole)
+        public userrole GetUserRole(string userRole)
         {
-            throw new NotImplementedException();
+            return _context.userroles.FirstOrDefault(u => u.UserRoleName.Equals(userRole, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public void AddNewBooking(booking newBooking)
+        {
+            _context.bookings.Add(newBooking);
+            _context.SaveChanges();
+        }
+
+        public void AddNewBooking(booking newBooking, List<bookedtable> bookedTableList)
+        {
+            _context.bookings.Add(newBooking);
+            _context.bookedtables.AddRange(bookedTableList);
+
+            _context.SaveChanges();
+        }
+
+        public List<booking> GetBookingOnDate(DateTime bookingDate)
+        {
+            var bookingList = (from b in _context.bookings where b.BookingDate.Date == bookingDate.Date select b).ToList();
+
+            return bookingList;
+        }
+
+        public List<tableinfo> GetTableList()
+        {
+            var tableList = (from t in _context.tableinfoes where t.IsDeleted == false select t).ToList();
+
+            return tableList;
         }
     }
 }

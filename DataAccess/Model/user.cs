@@ -12,6 +12,12 @@ namespace DataAccess.Model
         [StringLength(64)]
         public string UserId { get; set; }
 
+        [StringLength(50)]
+        public string FirstName { get; set; }
+
+        [StringLength(50)]
+        public string LastName { get; set; }
+
         [Required]
         [StringLength(255)]
         public string PasswordHash { get; set; }
