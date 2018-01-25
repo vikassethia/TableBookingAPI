@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class NewUserRequest
+    public class UserRequest
     {
         public string UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
-        public string userRole { get; set; }
+        public string UserRole { get; set; }
        
     }
 }

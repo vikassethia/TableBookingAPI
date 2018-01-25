@@ -18,10 +18,15 @@ namespace BusinessLogic
         {
             _dataAccess = new DataAccessClass(_context);
         }
-        public bool IsUserAuthorized(string userId, string password, out user userIdentity)
+        public bool IsUserAuthorized(string userId, string password, out UserRequest userIdentity)
         {
             var loggedInUser = _dataAccess.GetLoggedInUser(userId);
-            userIdentity = loggedInUser;
+            userIdentity = new UserRequest() {
+                FirstName=loggedInUser.FirstName,
+                LastName = loggedInUser.LastName,
+                UserId = loggedInUser.UserId,
+                UserRole = loggedInUser.userrole.UserRoleName
+            };
             if (loggedInUser == null)
                 return false;
 
@@ -33,7 +38,7 @@ namespace BusinessLogic
             return false;
         }
 
-        public void AddNewUser(NewUserRequest userRequest)
+        public void AddNewUser(UserRequest userRequest)
         {
             //Check if User already registered with same User-Id
 
@@ -44,7 +49,7 @@ namespace BusinessLogic
 
            
             var salt = Guid.NewGuid();
-            var userRole = _dataAccess.GetUserRole(userRequest.userRole);
+            var userRole = _dataAccess.GetUserRole(userRequest.UserRole);
 
             var passCrypto = new PasswordCryptography();
             var passwordHash = passCrypto.GetPasswordHash(salt, userRequest.Password);

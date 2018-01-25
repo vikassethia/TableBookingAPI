@@ -44,7 +44,7 @@
     <Compile Include="BookingLogic.cs" />
     <Compile Include="IAuth.cs" />
     <Compile Include="IBookingLogic.cs" />
-    <Compile Include="NewUserRequest.cs" />
+    <Compile Include="UserRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using DataAccess.Model;
 using BusinessLogic;
 using System.Security.Claims;
 using System.Data.Common;
@@ -24,7 +23,7 @@ namespace TableBookingAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("api/user/add")]
-        public HttpResponseMessage NewCustomerRegistration(NewUserRequest userRequest)
+        public HttpResponseMessage NewCustomerRegistration(UserRequest userRequest)
         {
             if (userRequest == null) { Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(userRequest))); }
 

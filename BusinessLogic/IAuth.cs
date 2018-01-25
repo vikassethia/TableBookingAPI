@@ -10,7 +10,7 @@ namespace BusinessLogic
 {
     public interface IAuth
     {
-        bool IsUserAuthorized(string userId, string password, out user userIdentity);
-        void AddNewUser(NewUserRequest userRequest);
+        bool IsUserAuthorized(string userId, string password, out UserRequest userIdentity);
+        void AddNewUser(UserRequest userRequest);
     }
 }

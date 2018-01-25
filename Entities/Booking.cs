@@ -15,10 +15,11 @@ namespace Entities
         public int NumberOfGuests { get; set; }
         public string Email { get; set; }
         public DateTime BookingDate { get; set; }
-        public DateTime StartTime  { get; set; }
-        public DateTime EndTime { get; set; }
+        public TimeSpan StartTime  { get; set; }
+        public TimeSpan? EndTime { get; set; }
         public List<TableInfo> TableNumbers { get; set; }
         public string Notes { get; set; }
+        public string BookedBy { get; set; }
 
     }
 }

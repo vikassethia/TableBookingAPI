@@ -15,6 +15,7 @@ namespace DataAccess
         List<tableinfo> GetTableList();
         List<tableshape> GetTableShapes();
         void AddNewTable(tableinfo newTableDetails);
+        void AddNewShape(tableshape NewShapeRequest);
     }   
 
   

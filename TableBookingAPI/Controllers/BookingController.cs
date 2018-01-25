@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using DataAccess.Model;
 using BusinessLogic;
 using System.Security.Claims;
 using System.Data.Common;
 using System.Data;
+using Entities;
 
 namespace TableBookingAPI.Controllers
 {
@@ -24,7 +24,7 @@ namespace TableBookingAPI.Controllers
         [Authorize]
         [HttpPost]
         [Route("api/booking/add")]
-        public HttpResponseMessage BookTable(booking bookTableRequest)
+        public HttpResponseMessage BookTable(Booking bookTableRequest)
         {
             if (bookTableRequest == null) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(bookTableRequest))); }
 
@@ -62,7 +62,7 @@ namespace TableBookingAPI.Controllers
         [Authorize]
         [HttpGet]
         [Route("api/booking/getbydate")]
-        public List<booking> GetBooking(DateTime bookingDateRequest)
+        public List<Booking> GetBooking(DateTime bookingDateRequest)
         {
             if (bookingDateRequest == null) { bookingDateRequest = DateTime.Now; }
 
@@ -94,7 +94,7 @@ namespace TableBookingAPI.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("api/booking/gettables")]
-        public List<tableinfo> GetTables()
+        public List<TableInfo> GetTables()
         {            
             try
             {
@@ -123,7 +123,7 @@ namespace TableBookingAPI.Controllers
         [Authorize]
         [HttpGet]
         [Route("api/booking/gettableshapes")]
-        public List<tableshape> GetTableShapes()
+        public List<TableShape> GetTableShapes()
         {
             try
             {
@@ -149,7 +149,7 @@ namespace TableBookingAPI.Controllers
         [Authorize]
         [HttpPost]
         [Route("api/table/add")]
-        public HttpResponseMessage AddTable(tableinfo addTableRequest)
+        public HttpResponseMessage AddTable(TableInfo addTableRequest)
         {
             if (addTableRequest == null) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(addTableRequest))); }
 

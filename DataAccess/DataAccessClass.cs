@@ -70,6 +70,12 @@ namespace DataAccess
         {
             _context.tableinfoes.Add(newTableDetails);
             _context.SaveChanges();
+        }        
+
+        public void AddNewShape(tableshape NewShapeRequest)
+        {
+            _context.tableshapes.Add(NewShapeRequest);
+            _context.SaveChanges();
         }
     }
 }
