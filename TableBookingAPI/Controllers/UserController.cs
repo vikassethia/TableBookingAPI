@@ -14,6 +14,8 @@ namespace TableBookingAPI.Controllers
 {
     public class UserController : ApiController
     {
+        private IAuth _userBL = new Auth();
+
         /// <summary>
         /// 
         /// </summary>
@@ -36,8 +38,7 @@ namespace TableBookingAPI.Controllers
                 //  "userRole": "Admin"
                 //}
 
-                var userBL = new Auth();
-                userBL.AddNewUser(userRequest);
+                _userBL.AddNewUser(userRequest);
 
             }
             catch (DbException ex)

@@ -13,6 +13,8 @@ namespace DataAccess
         void AddNewBooking(booking newBooking, List<bookedtable> bookedTableList);
         List<booking> GetBookingOnDate(DateTime bookingDate);
         List<tableinfo> GetTableList();
+        List<tableshape> GetTableShapes();
+        void AddNewTable(tableinfo newTableDetails);
     }   
 
   

@@ -14,6 +14,13 @@ namespace TableBookingAPI.Controllers
 {
     public class BookingController : ApiController
     {
+        private IBookingLogic _bookingBL = new BookingLogic();
+
+        /// <summary>
+        /// Book table in restaurant
+        /// </summary>
+        /// <param name="bookTableRequest"></param>
+        /// <returns>HttpStatusCode: Created = 201</returns>
         [Authorize]
         [HttpPost]
         [Route("api/booking/add")]
@@ -28,8 +35,7 @@ namespace TableBookingAPI.Controllers
                 {
                     bookTableRequest.BookedBy = identity.Name;
                 }
-                var bookingBL = new BookingLogic();
-                bookingBL.AddNewBooking(bookTableRequest);
+                _bookingBL.AddNewBooking(bookTableRequest);
 
             }
             catch (DbException ex)
@@ -52,7 +58,7 @@ namespace TableBookingAPI.Controllers
         /// Get table booking details for given date (example value: 2018-01-16T15:46:27.948Z)
         /// </summary>
         /// <param name="bookingDateRequest"></param>
-        /// <returns></returns>
+        /// <returns>List of booking object</returns>
         [Authorize]
         [HttpGet]
         [Route("api/booking/getbydate")]
@@ -63,8 +69,7 @@ namespace TableBookingAPI.Controllers
             try
             {
                 var identity = (ClaimsIdentity)User.Identity;
-                var bookingBL = new BookingLogic();
-                var response = bookingBL.GetBookingOnDate(bookingDateRequest);
+                var response = _bookingBL.GetBookingOnDate(bookingDateRequest);
                 return response;
             }
             catch (DbException ex)
@@ -79,8 +84,96 @@ namespace TableBookingAPI.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
             }
-
             
+        }
+
+        /// <summary>
+        ///  Get list of tables available for book
+        /// </summary>
+        /// <returns> list of tableinfo object</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/booking/gettables")]
+        public List<tableinfo> GetTables()
+        {            
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                var response = _bookingBL.GetTablesList();
+                return response;
+            }
+            catch (DbException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
+            }
+            catch (DuplicateNameException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
+            }
+        }
+
+        /// <summary>
+        /// Get different shape of tables (use this to create new table and table visualization) 
+        /// </summary>
+        /// <returns>List of table shapes object</returns>
+        [Authorize]
+        [HttpGet]
+        [Route("api/booking/gettableshapes")]
+        public List<tableshape> GetTableShapes()
+        {
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                var response = _bookingBL.GetTableShapes();
+                return response;
+            }
+            catch (DbException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
+            }
+            catch (DuplicateNameException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        [Route("api/table/add")]
+        public HttpResponseMessage AddTable(tableinfo addTableRequest)
+        {
+            if (addTableRequest == null) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(addTableRequest))); }
+
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                               
+                _bookingBL.AddNewTable(addTableRequest);
+
+            }
+            catch (DbException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error");
+            }
+            catch (DuplicateNameException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.Created);
         }
     }
 }

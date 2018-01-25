@@ -58,5 +58,18 @@ namespace DataAccess
 
             return tableList;
         }
+
+        public List<tableshape> GetTableShapes()
+        {
+            var tableShapes = (from t in _context.tableshapes select t).ToList();
+
+            return tableShapes;
+        }
+
+        public void AddNewTable(tableinfo newTableDetails)
+        {
+            _context.tableinfoes.Add(newTableDetails);
+            _context.SaveChanges();
+        }
     }
 }

@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
 using DataAccess.Model;
+using Entities;
 
 namespace BusinessLogic
 {
     public class BookingLogic : IBookingLogic
     {
-        private DataAccessClass _dataAccess;
+        private IDataAccessClass _dataAccess;
         private TableBookingModel _context = new TableBookingModel();
         public BookingLogic()
         {
@@ -32,7 +33,32 @@ namespace BusinessLogic
         {
             var tableList = _dataAccess.GetTableList();
 
-            return tableList;
+            var response = new List<TableInfo>();
+
+            foreach (var table in tableList)
+            {
+                response.Add(
+                    new TableInfo()
+                    {
+                        TableNumber = table.TableNumber,
+                        Capacity = table.Capacity,
+                        IsBookable = table.IsBookable,
+                        Shape = table.tableshape.ShapeName,
+                        Xposition = table.Xposition,
+                        Yposition = table.Yposition
+                    }
+                    );
+            }
+
+
+                return tableList;
+        }
+
+        public List<tableshape> GetTableShapes()
+        {
+            var tableShapes = _dataAccess.GetTableShapes();           
+
+            return tableShapes;
         }
 
         public List<booking> GetDayBooking(DateTime bookingDateRequest)
@@ -60,5 +86,10 @@ namespace BusinessLogic
             return response;
         }
 
+        public void AddNewTable(tableinfo newTableDetails)
+        {
+            newTableDetails.IsDeleted = false;
+            _dataAccess.AddNewTable(newTableDetails);
+        }
     }
 }

@@ -11,7 +11,8 @@ namespace BusinessLogic
         List<tableinfo> GetTablesList();
         void AddNewBooking(booking newBooking);
         List<booking> GetDayBooking(DateTime bookingDateRequest);
-    }   
+        List<tableshape> GetTableShapes();
+        void AddNewTable(tableinfo newTableDetails);
 
-  
+    }
 }

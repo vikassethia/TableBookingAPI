@@ -11,10 +11,9 @@ namespace Entities
         public int TableNumber { get; set; }
         public int Capacity { get; set; }
         public string Shape { get; set; }
-        public double  Xposition { get; set; }
-        public double Yposition { get; set; }
+        public double?  Xposition { get; set; }
+        public double? Yposition { get; set; }
         public bool IsBookable { get; set; }
-        public bool IsDeleted { get; set; }
 
     }
 }
