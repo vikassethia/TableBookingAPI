@@ -47,7 +47,7 @@ namespace DataAccess
 
         public List<booking> GetBookingOnDate(DateTime bookingDate)
         {
-            var bookingList = (from b in _context.bookings where b.BookingDate.Date == bookingDate.Date select b).ToList();
+            var bookingList = (from b in _context.bookings where b.BookingDate == bookingDate.Date select b).ToList();
 
             return bookingList;
         }

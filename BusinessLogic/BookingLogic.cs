@@ -19,12 +19,13 @@ namespace BusinessLogic
         }
         public void AddNewBooking(Booking newBooking)
         {
+            newBooking.BookingId = Guid.NewGuid().ToString();
             var bookingEntity = new booking()
             {
                 BookedBy=newBooking.BookedBy,
                 bookedtables = new List<bookedtable>(),
                 BookingDate = newBooking.BookingDate,
-                BookingId = newBooking.BookingId,
+                BookingId = newBooking.BookingId.ToString(),
                 Email = newBooking.Email,
                 EndTime = newBooking.EndTime,
                 FirstName = newBooking.FirstName,
@@ -38,7 +39,7 @@ namespace BusinessLogic
             foreach(var table in newBooking.TableNumbers)
             {
                 bookingEntity.bookedtables.Add(new bookedtable() {
-                    BookingId=newBooking.BookingId,
+                    BookingId=newBooking.BookingId.ToString(),
                     TableNumber=table.TableNumber
                 });
             }
