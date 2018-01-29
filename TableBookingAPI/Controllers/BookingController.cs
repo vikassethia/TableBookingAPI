@@ -21,7 +21,8 @@ namespace TableBookingAPI.Controllers
         /// </summary>
         /// <param name="bookTableRequest"></param>
         /// <returns>HttpStatusCode: Created = 201</returns>
-        [Authorize]
+       // [Authorize]
+        [AllowAnonymous]
         [HttpPost]
         [Route("api/booking/add")]
         public HttpResponseMessage BookTable(Booking bookTableRequest)
@@ -30,6 +31,29 @@ namespace TableBookingAPI.Controllers
 
             try
             {
+
+
+                /*
+                 {
+                      "FirstName": "Vikas",
+                      "LastName": "Sethia",
+                      "PhoneNumber": "0123456789",
+                      "NumberOfGuests": 4,
+                      "BookingDate": "2018-01-26",
+                      "StartTime": "18:00",
+                      "TableNumbers": [
+                        {
+                          "TableNumber": 2,
+                        },
+	                    {
+                          "TableNumber": 3,
+                        }
+                      ],
+                      "Notes": "Veg",
+                      "BookedBy": "vikas.sethia21@gmail"
+                    }
+                 */
+
                 var identity = (ClaimsIdentity)User.Identity;
                 if(string.IsNullOrEmpty(bookTableRequest.BookedBy))
                 {
@@ -59,7 +83,7 @@ namespace TableBookingAPI.Controllers
         /// </summary>
         /// <param name="bookingDateRequest"></param>
         /// <returns>List of booking object</returns>
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         [Route("api/booking/getbydate")]
         public List<Booking> GetBooking(DateTime bookingDateRequest)
@@ -120,7 +144,7 @@ namespace TableBookingAPI.Controllers
         /// Get different shape of tables (use this to create new table and table visualization) 
         /// </summary>
         /// <returns>List of table shapes object</returns>
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         [Route("api/booking/gettableshapes")]
         public List<TableShape> GetTableShapes()
@@ -146,7 +170,7 @@ namespace TableBookingAPI.Controllers
         }
 
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
         [Route("api/table/add")]
         public HttpResponseMessage AddTable(TableInfo addTableRequest)

@@ -29,13 +29,16 @@ namespace TableBookingAPI.Controllers
 
             try
             {
-                //{
-                //    "UserId": "vikas.sethia21@gmail.com",
-                //  "FirstName": "Vikas",
-                //  "LastName": "Sethia",
-                //  "Password": "Pass@123",
-                //  "userRole": "Admin"
-                //}
+                /*
+                {
+                    "UserId": "vikas.sethia21@gmail.com",
+                  "FirstName": "Vikas",
+                  "LastName": "Sethia",
+                  "Password": "Pass@123",
+                  "userRole": "Admin"
+                }
+
+                */
 
                 _userBL.AddNewUser(userRequest);
 

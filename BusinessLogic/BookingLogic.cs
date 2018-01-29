@@ -103,6 +103,7 @@ namespace BusinessLogic
                         Capacity = table.Capacity,
                         IsBookable = table.IsBookable,
                         Shape = table.tableshape.ShapeName,
+                        ShapeId = table.ShapeId,
                         Xposition = table.Xposition,
                         Yposition = table.Yposition
                     }
