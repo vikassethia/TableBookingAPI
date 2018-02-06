@@ -6,7 +6,7 @@ namespace DataAccess.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tablebooking.bookedtable")]
+    [Table("bookedtable")]
     public partial class bookedtable
     {
         public int Id { get; set; }

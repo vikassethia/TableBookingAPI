@@ -6,7 +6,7 @@ namespace DataAccess.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tablebooking.userrole")]
+    [Table("userrole")]
     public partial class userrole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

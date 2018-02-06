@@ -79,8 +79,13 @@
     <Compile Include="Migrations\201801291339429_initial.Designer.cs">
       <DependentUpon>201801291339429_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802061352456_archivedBooking_UpdateTables.cs" />
+    <Compile Include="Migrations\201802061352456_archivedBooking_UpdateTables.Designer.cs">
+      <DependentUpon>201802061352456_archivedBooking_UpdateTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\bookedtable.cs" />
+    <Compile Include="Model\archivedbooking.cs" />
     <Compile Include="Model\booking.cs" />
     <Compile Include="Model\TableBookingModel.cs" />
     <Compile Include="Model\tableinfo.cs" />
@@ -108,10 +113,14 @@
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
     <Content Include="Migration_SQL\201801291339429_initial.sql" />
+    <Content Include="Migration_SQL\201802061352456_archivedBooking_UpdateTables.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201801291339429_initial.resx">
       <DependentUpon>201801291339429_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061352456_archivedBooking_UpdateTables.resx">
+      <DependentUpon>201802061352456_archivedBooking_UpdateTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -1,17 +1,17 @@
-﻿create table `tablebooking.bookedtable` (`Id` int not null  auto_increment ,`BookingId` varchar(64)  not null ,`TableNumber` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-CREATE index  `IX_BookingId` on `tablebooking.bookedtable` (`BookingId` DESC) using HASH
-CREATE index  `IX_TableNumber` on `tablebooking.bookedtable` (`TableNumber` DESC) using HASH
-create table `tablebooking.booking` (`BookingId` varchar(64)  not null ,`FirstName` varchar(50) ,`LastName` varchar(50) ,`PhoneNumber` varchar(15) ,`NumberOfGuests` int not null ,`Email` varchar(50) ,`Notes` varchar(255) ,`BookingDate` datetime not null ,`StartTime` time not null ,`EndTime` time,`BookedBy` varchar(64) ,primary key ( `BookingId`) ) engine=InnoDb auto_increment=0
-create table `tablebooking.tableinfo` (`TableNumber` int not null ,`Capacity` int not null ,`ShapeId` int,`Xposition` double,`Yposition` double,`IsBookable` bit not null ,`IsDeleted` bit not null ,primary key ( `TableNumber`) ) engine=InnoDb auto_increment=0
-CREATE index  `IX_ShapeId` on `tablebooking.tableinfo` (`ShapeId` DESC) using HASH
-create table `tablebooking.tableshape` (`ShapeId` int not null  auto_increment ,`ShapeName` varchar(50)  not null ,primary key ( `ShapeId`) ) engine=InnoDb auto_increment=0
-create table `tablebooking.userrole` (`UserRoleID` int not null  auto_increment ,`UserRoleName` varchar(50)  not null ,primary key ( `UserRoleID`) ) engine=InnoDb auto_increment=0
-create table `tablebooking.users` (`UserId` varchar(64)  not null ,`FirstName` nvarchar(50) ,`LastName` nvarchar(50) ,`PasswordHash` varchar(255)  not null ,`Salt` varchar(255)  not null ,`UserRoleID` int not null ,`IsActive` bit not null ,`AddeddOn` datetime not null ,primary key ( `UserId`) ) engine=InnoDb auto_increment=0
-CREATE index  `IX_UserRoleID` on `tablebooking.users` (`UserRoleID` DESC) using HASH
-alter table `tablebooking.bookedtable` add constraint `FK_tablebooking.bookedtable_tablebooking.booking_BookingId`  foreign key (`BookingId`) references `tablebooking.booking` ( `BookingId`) 
-alter table `tablebooking.bookedtable` add constraint `FK_tablebooking.bookedtable_tablebooking.tableinfo_TableNumber`  foreign key (`TableNumber`) references `tablebooking.tableinfo` ( `TableNumber`) 
-alter table `tablebooking.tableinfo` add constraint `FK_tablebooking.tableinfo_tablebooking.tableshape_ShapeId`  foreign key (`ShapeId`) references `tablebooking.tableshape` ( `ShapeId`) 
-alter table `tablebooking.users` add constraint `FK_tablebooking.users_tablebooking.userrole_UserRoleID`  foreign key (`UserRoleID`) references `tablebooking.userrole` ( `UserRoleID`) 
+﻿create table `bookedtable` (`Id` int not null  auto_increment ,`BookingId` varchar(64)  not null ,`TableNumber` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+CREATE index  `IX_BookingId` on `bookedtable` (`BookingId` DESC) using HASH
+CREATE index  `IX_TableNumber` on `bookedtable` (`TableNumber` DESC) using HASH
+create table `booking` (`BookingId` varchar(64)  not null ,`FirstName` varchar(50) ,`LastName` varchar(50) ,`PhoneNumber` varchar(15) ,`NumberOfGuests` int not null ,`Email` varchar(50) ,`Notes` varchar(255) ,`BookingDate` datetime not null ,`StartTime` time not null ,`EndTime` time,`BookedBy` varchar(64) ,primary key ( `BookingId`) ) engine=InnoDb auto_increment=0
+create table `tableinfo` (`TableNumber` int not null ,`Capacity` int not null ,`ShapeId` int,`Xposition` double,`Yposition` double,`IsBookable` bit not null ,`IsDeleted` bit not null ,primary key ( `TableNumber`) ) engine=InnoDb auto_increment=0
+CREATE index  `IX_ShapeId` on `tableinfo` (`ShapeId` DESC) using HASH
+create table `tableshape` (`ShapeId` int not null  auto_increment ,`ShapeName` varchar(50)  not null ,primary key ( `ShapeId`) ) engine=InnoDb auto_increment=0
+create table `userrole` (`UserRoleID` int not null  auto_increment ,`UserRoleName` varchar(50)  not null ,primary key ( `UserRoleID`) ) engine=InnoDb auto_increment=0
+create table `users` (`UserId` varchar(64)  not null ,`FirstName` nvarchar(50) ,`LastName` nvarchar(50) ,`PasswordHash` varchar(255)  not null ,`Salt` varchar(255)  not null ,`UserRoleID` int not null ,`IsActive` bit not null ,`AddeddOn` datetime not null ,primary key ( `UserId`) ) engine=InnoDb auto_increment=0
+CREATE index  `IX_UserRoleID` on `users` (`UserRoleID` DESC) using HASH
+alter table `bookedtable` add constraint `FK_bookedtable_booking_BookingId`  foreign key (`BookingId`) references `booking` ( `BookingId`) 
+alter table `bookedtable` add constraint `FK_bookedtable_tableinfo_TableNumber`  foreign key (`TableNumber`) references `tableinfo` ( `TableNumber`) 
+alter table `tableinfo` add constraint `FK_tableinfo_tableshape_ShapeId`  foreign key (`ShapeId`) references `tableshape` ( `ShapeId`) 
+alter table `users` add constraint `FK_users_userrole_UserRoleID`  foreign key (`UserRoleID`) references `userrole` ( `UserRoleID`) 
 create table `__MigrationHistory` (`MigrationId` nvarchar(150)  not null ,`ContextKey` nvarchar(300)  not null ,`Model` longblob not null ,`ProductVersion` nvarchar(32)  not null ,primary key ( `MigrationId`,`ContextKey`) ) engine=InnoDb auto_increment=0
 INSERT INTO `__MigrationHistory`(
 `MigrationId`, 

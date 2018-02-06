@@ -6,14 +6,18 @@ namespace DataAccess.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("booking")]
-    public partial class booking
+    [Table("archivedbooking")]
+    public partial class archivedbooking
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public booking()
+        public archivedbooking()
         {
-            bookedtables = new HashSet<bookedtable>();
+           
         }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         [StringLength(64)]
         public string BookingId { get; set; }
@@ -44,8 +48,8 @@ namespace DataAccess.Model
         [StringLength(64)]
         public string BookedBy { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<bookedtable> bookedtables { get; set; }
+        [StringLength(50)]
+        public string bookedtables { get; set; }
 
         [Column(TypeName = "bit")]
         public bool hasArrived { get; set; }

@@ -6,7 +6,7 @@ namespace DataAccess.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tablebooking.tableshape")]
+    [Table("tableshape")]
     public partial class tableshape
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

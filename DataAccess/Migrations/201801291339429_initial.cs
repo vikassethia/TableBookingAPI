@@ -8,7 +8,7 @@ namespace DataAccess.Migrations
         public override void Up()
         {
             CreateTable(
-                "tablebooking.bookedtable",
+                "bookedtable",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -16,13 +16,13 @@ namespace DataAccess.Migrations
                         TableNumber = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("tablebooking.booking", t => t.BookingId)
-                .ForeignKey("tablebooking.tableinfo", t => t.TableNumber)
+                .ForeignKey("booking", t => t.BookingId)
+                .ForeignKey("tableinfo", t => t.TableNumber)
                 .Index(t => t.BookingId)
                 .Index(t => t.TableNumber);
             
             CreateTable(
-                "tablebooking.booking",
+                "booking",
                 c => new
                     {
                         BookingId = c.String(nullable: false, maxLength: 64, unicode: false),
@@ -40,7 +40,7 @@ namespace DataAccess.Migrations
                 .PrimaryKey(t => t.BookingId);
             
             CreateTable(
-                "tablebooking.tableinfo",
+                "tableinfo",
                 c => new
                     {
                         TableNumber = c.Int(nullable: false),
@@ -52,11 +52,11 @@ namespace DataAccess.Migrations
                         IsDeleted = c.Boolean(nullable: false, storeType: "bit"),
                     })
                 .PrimaryKey(t => t.TableNumber)
-                .ForeignKey("tablebooking.tableshape", t => t.ShapeId)
+                .ForeignKey("tableshape", t => t.ShapeId)
                 .Index(t => t.ShapeId);
             
             CreateTable(
-                "tablebooking.tableshape",
+                "tableshape",
                 c => new
                     {
                         ShapeId = c.Int(nullable: false, identity: true),
@@ -65,7 +65,7 @@ namespace DataAccess.Migrations
                 .PrimaryKey(t => t.ShapeId);
             
             CreateTable(
-                "tablebooking.userrole",
+                "userrole",
                 c => new
                     {
                         UserRoleID = c.Int(nullable: false, identity: true),
@@ -74,7 +74,7 @@ namespace DataAccess.Migrations
                 .PrimaryKey(t => t.UserRoleID);
             
             CreateTable(
-                "tablebooking.users",
+                "users",
                 c => new
                     {
                         UserId = c.String(nullable: false, maxLength: 64, unicode: false),
@@ -87,27 +87,27 @@ namespace DataAccess.Migrations
                         AddeddOn = c.DateTime(nullable: false, precision: 0),
                     })
                 .PrimaryKey(t => t.UserId)
-                .ForeignKey("tablebooking.userrole", t => t.UserRoleID)
+                .ForeignKey("userrole", t => t.UserRoleID)
                 .Index(t => t.UserRoleID);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("tablebooking.users", "UserRoleID", "tablebooking.userrole");
-            DropForeignKey("tablebooking.tableinfo", "ShapeId", "tablebooking.tableshape");
-            DropForeignKey("tablebooking.bookedtable", "TableNumber", "tablebooking.tableinfo");
-            DropForeignKey("tablebooking.bookedtable", "BookingId", "tablebooking.booking");
-            DropIndex("tablebooking.users", new[] { "UserRoleID" });
-            DropIndex("tablebooking.tableinfo", new[] { "ShapeId" });
-            DropIndex("tablebooking.bookedtable", new[] { "TableNumber" });
-            DropIndex("tablebooking.bookedtable", new[] { "BookingId" });
-            DropTable("tablebooking.users");
-            DropTable("tablebooking.userrole");
-            DropTable("tablebooking.tableshape");
-            DropTable("tablebooking.tableinfo");
-            DropTable("tablebooking.booking");
-            DropTable("tablebooking.bookedtable");
+            DropForeignKey("users", "UserRoleID", "userrole");
+            DropForeignKey("tableinfo", "ShapeId", "tableshape");
+            DropForeignKey("bookedtable", "TableNumber", "tableinfo");
+            DropForeignKey("bookedtable", "BookingId", "booking");
+            DropIndex("users", new[] { "UserRoleID" });
+            DropIndex("tableinfo", new[] { "ShapeId" });
+            DropIndex("bookedtable", new[] { "TableNumber" });
+            DropIndex("bookedtable", new[] { "BookingId" });
+            DropTable("users");
+            DropTable("userrole");
+            DropTable("tableshape");
+            DropTable("tableinfo");
+            DropTable("booking");
+            DropTable("bookedtable");
         }
     }
 }

@@ -6,7 +6,7 @@ namespace DataAccess.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tablebooking.users")]
+    [Table("users")]
     public partial class user
     {
         [StringLength(64)]

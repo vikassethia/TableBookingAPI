@@ -18,6 +18,7 @@ namespace DataAccess.Model
         public virtual DbSet<tableshape> tableshapes { get; set; }
         public virtual DbSet<userrole> userroles { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<archivedbooking> archivedbookings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -87,6 +88,38 @@ namespace DataAccess.Model
             modelBuilder.Entity<user>()
                 .Property(e => e.Salt)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.BookingId)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.FirstName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.LastName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.PhoneNumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.Email)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.Notes)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.BookedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<archivedbooking>()
+                .Property(e => e.bookedtables)
+                .IsUnicode(false);           
         }
     }
 }

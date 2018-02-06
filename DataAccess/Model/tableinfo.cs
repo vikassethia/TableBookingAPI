@@ -6,7 +6,7 @@ namespace DataAccess.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tablebooking.tableinfo")]
+    [Table("tableinfo")]
     public partial class tableinfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -18,6 +18,9 @@ namespace DataAccess.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int TableNumber { get; set; }
+
+        [StringLength(50)]
+        public string TableName { get; set; }
 
         public int Capacity { get; set; }
 
