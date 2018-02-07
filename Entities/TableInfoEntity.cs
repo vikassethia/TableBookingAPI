@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class TableInfo
+    public class TableInfoEntity
     {
         public int TableNumber { get; set; }
+        public string TableName { get; set; }
         public int Capacity { get; set; }
         public string Shape { get; set; }
         public int? ShapeId { get; set; }

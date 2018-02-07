@@ -9,9 +9,11 @@ using System.Security.Claims;
 using System.Data.Common;
 using System.Data;
 using Entities;
+using System.Web.Http.Cors;
 
 namespace TableBookingAPI.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BookingController : ApiController
     {
         private IBookingLogic _bookingBL = new BookingLogic();
@@ -24,8 +26,8 @@ namespace TableBookingAPI.Controllers
        // [Authorize]
         [AllowAnonymous]
         [HttpPost]
-        [Route("api/booking/add")]
-        public HttpResponseMessage BookTable(Booking bookTableRequest)
+        [Route("api/booking/post")]
+        public HttpResponseMessage BookTable(BookingEntity bookTableRequest)
         {
             if (bookTableRequest == null) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(bookTableRequest))); }
 
@@ -59,7 +61,7 @@ namespace TableBookingAPI.Controllers
                 {
                     bookTableRequest.BookedBy = identity.Name;
                 }
-                _bookingBL.AddNewBooking(bookTableRequest);
+                _bookingBL.AddUpdateBooking(bookTableRequest);
 
             }
             catch (DbException ex)
@@ -86,7 +88,7 @@ namespace TableBookingAPI.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("api/booking/getbydate")]
-        public List<Booking> GetBooking(DateTime bookingDateRequest)
+        public List<BookingEntity> GetBooking(DateTime bookingDateRequest)
         {
             if (bookingDateRequest == null) { bookingDateRequest = DateTime.Now; }
 
@@ -111,77 +113,23 @@ namespace TableBookingAPI.Controllers
             
         }
 
-        /// <summary>
-        ///  Get list of tables available for book
-        /// </summary>
-        /// <returns> list of tableinfo object</returns>
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("api/booking/gettables")]
-        public List<TableInfo> GetTables()
-        {            
-            try
-            {
-                var identity = (ClaimsIdentity)User.Identity;
-                var response = _bookingBL.GetTablesList();
-                return response;
-            }
-            catch (DbException ex)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
-            }
-            catch (DuplicateNameException ex)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
-            }
-        }
 
         /// <summary>
-        /// Get different shape of tables (use this to create new table and table visualization) 
+        /// Mark customer as arrived in restaurant
         /// </summary>
-        /// <returns>List of table shapes object</returns>
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("api/booking/gettableshapes")]
-        public List<TableShape> GetTableShapes()
-        {
-            try
-            {
-                var identity = (ClaimsIdentity)User.Identity;
-                var response = _bookingBL.GetTableShapes();
-                return response;
-            }
-            catch (DbException ex)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
-            }
-            catch (DuplicateNameException ex)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
-            }
-        }
-
-
+        /// <param name="bookingId"></param>
+        /// <returns>HttpStatusCode: Created = 201</returns>
+       // [Authorize]
         [AllowAnonymous]
         [HttpPost]
-        [Route("api/table/add")]
-        public HttpResponseMessage AddTable(TableInfo addTableRequest)
+        [Route("api/booking/hasarrived")]
+        public HttpResponseMessage HasArrived(string bookingId)
         {
-            if (addTableRequest == null) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(addTableRequest))); }
+            if (string.IsNullOrEmpty(bookingId)) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(bookingId))); }
 
             try
-            {
-                var identity = (ClaimsIdentity)User.Identity;
-                               
-                _bookingBL.AddNewTable(addTableRequest);
+            {    
+                _bookingBL.HasArrivedCustomer(bookingId);
 
             }
             catch (DbException ex)
@@ -198,6 +146,8 @@ namespace TableBookingAPI.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.Created);
-        }
+        }     
+
+
     }
 }

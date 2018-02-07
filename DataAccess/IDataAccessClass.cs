@@ -1,6 +1,7 @@
 ﻿using System;
 using DataAccess.Model;
 using System.Collections.Generic;
+using Entities;
 
 namespace DataAccess
 {
@@ -9,14 +10,14 @@ namespace DataAccess
         void AddNewUser(user user);  
         user GetLoggedInUser(string userId);
         userrole GetUserRole(string userRole);
-        void AddNewBooking(booking newBooking);
-        void AddNewBooking(booking newBooking, List<bookedtable> bookedTableList);
+        void AddUpdateBooking(booking bookingRequest);
         List<booking> GetBookingOnDate(DateTime bookingDate);
         List<tableinfo> GetTableList();
         List<tableshape> GetTableShapes();
-        void AddNewTable(tableinfo newTableDetails);
+        void AddUpdateTable(tableinfo tableRequest);
         void AddNewShape(tableshape NewShapeRequest);
-    }   
-
-  
+        void HasArrivedCustomer(string bookingId);
+        void ArchiveDeleteBooking(string bookingId);
+        void RemoveTable(int tableNumber);
+    }     
 }

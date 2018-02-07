@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class TableShape
+    public class TableShapeEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

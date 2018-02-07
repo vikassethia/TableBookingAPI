@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Booking
+    public class BookingEntity
     {
         public string BookingId { get; set; }
         public string FirstName { get; set; }
@@ -17,9 +17,10 @@ namespace Entities
         public DateTime BookingDate { get; set; }
         public TimeSpan StartTime  { get; set; }
         public TimeSpan? EndTime { get; set; }
-        public List<TableInfo> TableNumbers { get; set; }
+        public List<TableInfoEntity> TableNumbers { get; set; }
         public string Notes { get; set; }
         public string BookedBy { get; set; }
+        public bool hasArrived { get; set; }
 
     }
 }

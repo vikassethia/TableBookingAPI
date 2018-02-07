@@ -17,45 +17,45 @@ namespace BusinessLogic
         {
             _dataAccess = new DataAccessClass(_context);
         }
-        public void AddNewBooking(Booking newBooking)
+        public void AddUpdateBooking(BookingEntity bookingRequest)
         {
-            newBooking.BookingId = Guid.NewGuid().ToString();
+            bookingRequest.BookingId = Guid.NewGuid().ToString();
             var bookingEntity = new booking()
             {
-                BookedBy=newBooking.BookedBy,
+                BookedBy=bookingRequest.BookedBy,
                 bookedtables = new List<bookedtable>(),
-                BookingDate = newBooking.BookingDate,
-                BookingId = newBooking.BookingId.ToString(),
-                Email = newBooking.Email,
-                EndTime = newBooking.EndTime,
-                FirstName = newBooking.FirstName,
-                LastName = newBooking.LastName,
-                Notes = newBooking.Notes,
-                NumberOfGuests = newBooking.NumberOfGuests,
-                PhoneNumber = newBooking.PhoneNumber,
-                StartTime = newBooking.StartTime
+                BookingDate = bookingRequest.BookingDate,
+                BookingId = bookingRequest.BookingId.ToString(),
+                Email = bookingRequest.Email,
+                EndTime = bookingRequest.EndTime,
+                FirstName = bookingRequest.FirstName,
+                LastName = bookingRequest.LastName,
+                Notes = bookingRequest.Notes,
+                NumberOfGuests = bookingRequest.NumberOfGuests,
+                PhoneNumber = bookingRequest.PhoneNumber,
+                StartTime = bookingRequest.StartTime
             };
 
-            foreach(var table in newBooking.TableNumbers)
+            foreach(var table in bookingRequest.TableNumbers)
             {
                 bookingEntity.bookedtables.Add(new bookedtable() {
-                    BookingId=newBooking.BookingId.ToString(),
+                    BookingId=bookingRequest.BookingId.ToString(),
                     TableNumber=table.TableNumber
                 });
             }
 
-            _dataAccess.AddNewBooking(bookingEntity);
+            _dataAccess.AddUpdateBooking(bookingEntity);
         }
 
-        public List<Booking> GetBookingOnDate(DateTime bookingDateRequest)
+        public List<BookingEntity> GetBookingOnDate(DateTime bookingDateRequest)
         {
             var bookingList = _dataAccess.GetBookingOnDate(bookingDateRequest);
 
-            var response = new List<Booking>();
+            var response = new List<BookingEntity>();
 
             foreach (var item in bookingList)
             {
-                var bookingItem = new Booking()
+                var bookingItem = new BookingEntity()
                 {
                     BookingDate = item.BookingDate,
                     BookingId = item.BookingId,
@@ -67,13 +67,14 @@ namespace BusinessLogic
                     NumberOfGuests = item.NumberOfGuests,
                     PhoneNumber = item.PhoneNumber,
                     StartTime = item.StartTime,
-                    TableNumbers = new List<TableInfo>()
+                    TableNumbers = new List<TableInfoEntity>()
                 };
 
                 foreach (var t in item.bookedtables)
                 {
-                    bookingItem.TableNumbers.Add(new TableInfo() {
+                    bookingItem.TableNumbers.Add(new TableInfoEntity() {
                         TableNumber=t.TableNumber,
+                        TableName=t.tableinfo.TableName,
                         Capacity=t.tableinfo.Capacity,
                         IsBookable=t.tableinfo.IsBookable,
                         Shape=t.tableinfo.tableshape.ShapeName,
@@ -88,18 +89,19 @@ namespace BusinessLogic
             return response;
         }
 
-        public List<TableInfo> GetTablesList()
+        public List<TableInfoEntity> GetTablesList()
         {
             var tableList = _dataAccess.GetTableList();
 
-            var response = new List<TableInfo>();
+            var response = new List<TableInfoEntity>();
 
             foreach (var table in tableList)
             {
                 response.Add(
-                    new TableInfo()
+                    new TableInfoEntity()
                     {
                         TableNumber = table.TableNumber,
+                        TableName = table.TableName,
                         Capacity = table.Capacity,
                         IsBookable = table.IsBookable,
                         Shape = table.tableshape.ShapeName,
@@ -114,16 +116,16 @@ namespace BusinessLogic
             return response;
         }
 
-        public List<TableShape> GetTableShapes()
+        public List<TableShapeEntity> GetTableShapes()
         {
             var tableShapes = _dataAccess.GetTableShapes();
 
-            var response = new List<TableShape>();
+            var response = new List<TableShapeEntity>();
 
             foreach (var shape in tableShapes)
             {
                 response.Add(
-                    new TableShape()
+                    new TableShapeEntity()
                     {
                         Id = shape.ShapeId,
                         Name = shape.ShapeName
@@ -134,32 +136,32 @@ namespace BusinessLogic
             return response;
         }
 
-        public List<booking> GetDayBooking(DateTime bookingDateRequest)
-        {
+        //public List<booking> GetDayBooking(DateTime bookingDateRequest)
+        //{
 
-            var response = new List<booking>();
+        //    var response = new List<booking>();
 
-            response.Add(new booking() { BookingId = "1", FirstName = "Vikas", LastName = "Sethia", BookingDate = DateTime.Now, PhoneNumber = "0789456123", NumberOfGuests = 2, StartTime = new TimeSpan(12, 30, 00), bookedtables = getTables(new List<int>() { 1 }) });
-            response.Add(new booking() { BookingId = "1", FirstName = "Martin", LastName = "Karlsson", BookingDate = DateTime.Now, PhoneNumber = "0789456123", NumberOfGuests = 2, StartTime = new TimeSpan(12, 00, 00), bookedtables = getTables(new List<int>() { 2 }) });
-            response.Add(new booking() { BookingId = "1", FirstName = "Jonas", LastName = "Wu", BookingDate = DateTime.Now, PhoneNumber = "0789456123", NumberOfGuests = 4, StartTime = new TimeSpan(12, 30, 00), bookedtables = getTables(new List<int>() { 3, 4 }) });
+        //    response.Add(new booking() { BookingId = "1", FirstName = "Vikas", LastName = "Sethia", BookingDate = DateTime.Now, PhoneNumber = "0789456123", NumberOfGuests = 2, StartTime = new TimeSpan(12, 30, 00), bookedtables = getTables(new List<int>() { 1 }) });
+        //    response.Add(new booking() { BookingId = "1", FirstName = "Martin", LastName = "Karlsson", BookingDate = DateTime.Now, PhoneNumber = "0789456123", NumberOfGuests = 2, StartTime = new TimeSpan(12, 00, 00), bookedtables = getTables(new List<int>() { 2 }) });
+        //    response.Add(new booking() { BookingId = "1", FirstName = "Jonas", LastName = "Wu", BookingDate = DateTime.Now, PhoneNumber = "0789456123", NumberOfGuests = 4, StartTime = new TimeSpan(12, 30, 00), bookedtables = getTables(new List<int>() { 3, 4 }) });
 
-            return response;
-        }
+        //    return response;
+        //}
 
-        private List<bookedtable> getTables(List<int> tableNumbers)
-        {
-            var response = new List<bookedtable>();
+        //private List<bookedtable> getTables(List<int> tableNumbers)
+        //{
+        //    var response = new List<bookedtable>();
 
-            foreach (var item in tableNumbers)
-            {
-                response.Add(new bookedtable() { TableNumber = item, BookingId = "1" });
-            }
+        //    foreach (var item in tableNumbers)
+        //    {
+        //        response.Add(new bookedtable() { TableNumber = item, BookingId = "1" });
+        //    }
 
 
-            return response;
-        }
+        //    return response;
+        //}
 
-        public void AddNewTable(TableInfo tableRequest)
+        public void AddUpdateTable(TableInfoEntity tableRequest)
         {
             var newTableDetails = new tableinfo() {
                 IsDeleted = false,
@@ -168,10 +170,35 @@ namespace BusinessLogic
                 Xposition = tableRequest.Xposition,
                 Yposition = tableRequest.Yposition,
                 TableNumber = tableRequest.TableNumber,
+                TableName = tableRequest.TableName,
                 ShapeId=tableRequest.ShapeId
             };           
 
-            _dataAccess.AddNewTable(newTableDetails);
+            _dataAccess.AddUpdateTable(newTableDetails);
         }
+
+        public void AddNewShape(TableShapeEntity newShapeRequest)
+        {
+            var newShape = new tableshape()
+            {
+                ShapeName = newShapeRequest.Name
+            };
+            _dataAccess.AddNewShape(newShape);
+        }
+
+        public void HasArrivedCustomer(string bookingId)
+        {
+            _dataAccess.HasArrivedCustomer(bookingId);
+        }
+
+        public void ArchiveDeleteBooking(string bookingId)
+        {
+            _dataAccess.ArchiveDeleteBooking(bookingId);
+        }      
+
+        public void RemoveTable(int tableNumber)
+        {
+            _dataAccess.RemoveTable(tableNumber);
+        }       
     }
 }

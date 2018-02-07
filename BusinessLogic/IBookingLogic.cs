@@ -1,19 +1,21 @@
 ﻿using System;
 using DataAccess.Model;
 using System.Collections.Generic;
-using DataAccess.Model;
 using Entities;
 
 namespace BusinessLogic
 {
     public interface IBookingLogic
     {
-        List<Booking> GetBookingOnDate(DateTime bookingDateREquest);
-        List<TableInfo> GetTablesList();
-        void AddNewBooking(Booking newBooking);
-        List<booking> GetDayBooking(DateTime bookingDateRequest);
-        List<TableShape> GetTableShapes();
-        void AddNewTable(TableInfo tableRequest);
+        List<BookingEntity> GetBookingOnDate(DateTime bookingDateREquest);
+        List<TableInfoEntity> GetTablesList();
+        void AddUpdateBooking(BookingEntity bookingRequest);
+        List<TableShapeEntity> GetTableShapes();
+        void AddUpdateTable(TableInfoEntity tableRequest);
+        void AddNewShape(TableShapeEntity newShapeRequest);
+        void HasArrivedCustomer(string bookingId);
+        void ArchiveDeleteBooking(string bookingId);
+        void RemoveTable(int tableNumber);
 
     }
 }

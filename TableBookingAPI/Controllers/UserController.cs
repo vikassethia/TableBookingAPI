@@ -8,9 +8,11 @@ using BusinessLogic;
 using System.Security.Claims;
 using System.Data.Common;
 using System.Data;
+using System.Web.Http.Cors;
 
 namespace TableBookingAPI.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
         private IAuth _userBL = new Auth();
