@@ -33,7 +33,8 @@ namespace BusinessLogic
                 Notes = bookingRequest.Notes,
                 NumberOfGuests = bookingRequest.NumberOfGuests,
                 PhoneNumber = bookingRequest.PhoneNumber,
-                StartTime = bookingRequest.StartTime
+                StartTime = bookingRequest.StartTime,
+                hasArrived=bookingRequest.hasArrived
             };
 
             foreach(var table in bookingRequest.TableNumbers)
@@ -67,6 +68,7 @@ namespace BusinessLogic
                     NumberOfGuests = item.NumberOfGuests,
                     PhoneNumber = item.PhoneNumber,
                     StartTime = item.StartTime,
+                    hasArrived=item.hasArrived,
                     TableNumbers = new List<TableInfoEntity>()
                 };
 
@@ -199,6 +201,80 @@ namespace BusinessLogic
         public void RemoveTable(int tableNumber)
         {
             _dataAccess.RemoveTable(tableNumber);
-        }       
+        }
+        
+        
+        private  List<TableStatusEntity>  GetTableStatus(List<BookingEntity> bookingList, List<TableInfoEntity> tableList)
+        {
+            var response = new List<TableStatusEntity>();
+
+            foreach(var b in bookingList)
+            {
+                var bookedTimeList = GetTimeList(b.StartTime, b.EndTime);
+                foreach(var t in b.TableNumbers)
+                {
+                    foreach (var span in bookedTimeList)
+                    {
+                        var tableStatusItem = new TableStatusEntity() { StartTime=span, TableNumber=t.TableNumber.ToString(),Status=TableStatus.Booked.ToString()};
+                        if(b.hasArrived)
+                        {
+                            tableStatusItem.Status = TableStatus.Occupied.ToString();
+                        }
+                        var findDouble = response.Find(r => r.TableNumber.Equals(t.TableNumber) && r.StartTime == span);
+                        if(findDouble==null)
+                        {
+                            response.Add(tableStatusItem);
+                        }
+                        else
+                        {
+                            findDouble.Status = TableStatus.DoubleBooked.ToString();
+                        }
+
+                    }
+                }
+
+            }
+
+
+            return response;
+
+        }
+
+        private List<TimeSpan> GetTimeList(TimeSpan startTime, TimeSpan? endTime = null)
+        {
+            var response = new List<TimeSpan>();
+                      
+
+            startTime = new TimeSpan(startTime.Hours, (startTime.Minutes / 15) * 15, 00);
+            if (endTime == null)
+            { endTime = startTime.Add(new TimeSpan(02, 00, 00)); }
+
+            var checkTime = startTime;
+
+            while(checkTime<=endTime)
+            {
+                response.Add(checkTime);
+                checkTime = checkTime.Add(new TimeSpan(0, 15, 0));
+            }
+
+            return response;
+        }
+
+
+    }
+
+    public class TableStatusEntity
+    {
+        public TimeSpan StartTime { get; set; }
+        public string TableNumber { get; set; }
+        public string Status { get; set; }
+    }
+
+    public enum TableStatus
+    {
+        Free,
+        Booked,
+        DoubleBooked,
+        Occupied
     }
 }
