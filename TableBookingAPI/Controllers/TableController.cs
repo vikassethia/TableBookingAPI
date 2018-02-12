@@ -143,5 +143,41 @@ namespace TableBookingAPI.Controllers
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }
+
+        /// <summary>
+        /// Get all table status on requeted date and for for given time span in munites
+        /// Free: Table is free      
+        /// Booked: Table is booked
+        /// DoubleBooked: Table is booked by more than 1 customer
+        /// Occupied: Customer has arrived
+        /// DoubleOccupied: Table is double booked and atleat 1 customer has arrived
+        /// </summary>
+        /// <param name="requestedDate"></param>
+        /// <param name="timeSpanInMinutes"></param>
+        /// <returns>List of table, time and status</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/table/gettablestatus")]
+        public List<TableStatus> GetTableStatus(DateTime requestedDate, int timeSpanInMinutes)
+        {
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                var response = _bookingBL.GetTableStatusOnDate(requestedDate, timeSpanInMinutes);
+                return response;
+            }
+            catch (DbException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
+            }
+            catch (DuplicateNameException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
+            }
+        }
     }
 }

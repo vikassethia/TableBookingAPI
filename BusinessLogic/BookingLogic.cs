@@ -202,23 +202,29 @@ namespace BusinessLogic
         {
             _dataAccess.RemoveTable(tableNumber);
         }
-        
-        
-        private  List<TableStatusEntity>  GetTableStatus(List<BookingEntity> bookingList, List<TableInfoEntity> tableList)
+
+        public List<TableStatus> GetTableStatusOnDate(DateTime requestedDate, int timeSpanInMinutes)
         {
-            var response = new List<TableStatusEntity>();
+            return GetTableStatus(GetBookingOnDate(requestedDate), timeSpanInMinutes);
+        }
+
+
+
+        public  List<TableStatus>  GetTableStatus(List<BookingEntity> bookingList, int timeSpanInMinutes)
+        {
+            var response = new List<TableStatus>();
 
             foreach(var b in bookingList)
             {
-                var bookedTimeList = GetTimeList(b.StartTime, b.EndTime);
+                var bookedTimeList = GetTimeList(timeSpanInMinutes,b.StartTime, b.EndTime);
                 foreach(var t in b.TableNumbers)
                 {
                     foreach (var span in bookedTimeList)
                     {
-                        var tableStatusItem = new TableStatusEntity() { StartTime=span, TableNumber=t.TableNumber.ToString(),Status=TableStatus.Booked.ToString()};
+                        var tableStatusItem = new TableStatus() { StartTime=span, TableNumber=t.TableNumber.ToString(),Status=TableStatusEnum.Booked.ToString()};
                         if(b.hasArrived)
                         {
-                            tableStatusItem.Status = TableStatus.Occupied.ToString();
+                            tableStatusItem.Status = TableStatusEnum.Occupied.ToString();
                         }
                         var findDouble = response.Find(r => r.TableNumber.Equals(t.TableNumber) && r.StartTime == span);
                         if(findDouble==null)
@@ -227,7 +233,14 @@ namespace BusinessLogic
                         }
                         else
                         {
-                            findDouble.Status = TableStatus.DoubleBooked.ToString();
+                            if (findDouble.Status.Equals(TableStatusEnum.Occupied.ToString()) || findDouble.Status.Equals(TableStatusEnum.DoubleOccupied.ToString()))
+                            {
+                                findDouble.Status = TableStatusEnum.DoubleOccupied.ToString();
+                            }
+                            else
+                            {
+                                findDouble.Status = TableStatusEnum.DoubleBooked.ToString();
+                            }
                         }
 
                     }
@@ -240,21 +253,21 @@ namespace BusinessLogic
 
         }
 
-        private List<TimeSpan> GetTimeList(TimeSpan startTime, TimeSpan? endTime = null)
+        private List<TimeSpan> GetTimeList(int timeSpanInMinutes, TimeSpan startTime, TimeSpan? endTime = null)
         {
             var response = new List<TimeSpan>();
                       
 
-            startTime = new TimeSpan(startTime.Hours, (startTime.Minutes / 15) * 15, 00);
+            startTime = new TimeSpan(startTime.Hours, (startTime.Minutes / timeSpanInMinutes) * timeSpanInMinutes, 00);
             if (endTime == null)
             { endTime = startTime.Add(new TimeSpan(02, 00, 00)); }
 
             var checkTime = startTime;
 
-            while(checkTime<=endTime)
+            while(checkTime<endTime)
             {
                 response.Add(checkTime);
-                checkTime = checkTime.Add(new TimeSpan(0, 15, 0));
+                checkTime = checkTime.Add(new TimeSpan(0, timeSpanInMinutes, 0));
             }
 
             return response;
@@ -263,18 +276,34 @@ namespace BusinessLogic
 
     }
 
-    public class TableStatusEntity
+    public class TableStatus
     {
         public TimeSpan StartTime { get; set; }
         public string TableNumber { get; set; }
         public string Status { get; set; }
     }
 
-    public enum TableStatus
+    public enum TableStatusEnum
     {
+        /// <summary>
+        /// Table is free
+        /// </summary>
         Free,
+        /// <summary>
+        /// Table is booked
+        /// </summary>
         Booked,
+        /// <summary>
+        /// Table is booked by more than 1 customer
+        /// </summary>
         DoubleBooked,
-        Occupied
+        /// <summary>
+        /// Customer has arrived
+        /// </summary>
+        Occupied,
+        /// <summary>
+        /// Table is double booked and atleat 1 customer has arrived
+        /// </summary>
+        DoubleOccupied
     }
 }

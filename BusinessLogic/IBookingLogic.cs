@@ -16,6 +16,8 @@ namespace BusinessLogic
         void HasArrivedCustomer(string bookingId);
         void ArchiveDeleteBooking(string bookingId);
         void RemoveTable(int tableNumber);
+        List<TableStatus> GetTableStatusOnDate(DateTime requestedDate, int timeSpanInMinutes);
+        List<TableStatus> GetTableStatus(List<BookingEntity> bookingList, int timeSpanInMinutes);
 
     }
 }
