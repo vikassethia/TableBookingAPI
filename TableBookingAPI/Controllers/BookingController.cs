@@ -146,8 +146,64 @@ namespace TableBookingAPI.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.Created);
-        }     
+        }
 
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/booking/delete")]
+        public HttpResponseMessage DeleteBooking(string bookingId)
+        {
+            if (string.IsNullOrEmpty(bookingId)) { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(bookingId))); }
+
+            try
+            {
+                _bookingBL.ArchiveDeleteBooking(bookingId);
+
+            }
+            catch (DbException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error");
+            }
+            catch (DuplicateNameException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.Created);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/booking/getstatusbydate")]
+        public BookingStatus GetBookingStatus(DateTime bookingDateRequest, int timeSpanInMinutes)
+        {
+            if (bookingDateRequest == null) { bookingDateRequest = DateTime.Now; }
+
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                var response = _bookingBL.GetBookingStatus(bookingDateRequest, timeSpanInMinutes);
+                return response;
+            }
+            catch (DbException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
+            }
+            catch (DuplicateNameException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
+            }
+
+        }
 
     }
 }

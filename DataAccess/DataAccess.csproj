@@ -83,7 +83,6 @@
     <Compile Include="Migrations\201802061352456_archivedBooking_UpdateTables.Designer.cs">
       <DependentUpon>201802061352456_archivedBooking_UpdateTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\bookedtable.cs" />
     <Compile Include="Model\archivedbooking.cs" />
     <Compile Include="Model\booking.cs" />
