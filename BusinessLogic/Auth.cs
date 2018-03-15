@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Model;
 using System.Data;
+using Entities;
 
 namespace BusinessLogic
 {
@@ -25,6 +26,7 @@ namespace BusinessLogic
                 FirstName=loggedInUser.FirstName,
                 LastName = loggedInUser.LastName,
                 UserId = loggedInUser.UserId,
+                CustomerId= loggedInUser.CustomerId,
                 UserRole = loggedInUser.userrole.UserRoleName
             };
             if (loggedInUser == null)
@@ -66,6 +68,7 @@ namespace BusinessLogic
                 PasswordHash = passwordHash,
                 FirstName = userRequest.FirstName,
                 LastName = userRequest.LastName,
+                CustomerId=userRequest.CustomerId,
                 userrole = userRole
             };          
 
@@ -73,6 +76,43 @@ namespace BusinessLogic
 
         }
 
-        
+        public void AddNewCustomer(CustomerEntity customerRequest)
+        {
+            //Check if User already registered with same User-Id
+
+            var existingCustomer = _dataAccess.GetLoggedInCustomer(customerRequest.CustomerId);
+
+            if (existingCustomer != null)
+                throw new DuplicateNameException("Customer already registered with this id");      
+
+
+            var newCustomer = new customer()
+            {
+               AddeddOn = DateTime.Now,
+               Address = customerRequest.Address,
+               CompanyName= customerRequest.CompanyName,
+               CustomerId = customerRequest.CustomerId,
+               DisplayName= customerRequest.DisplayName,
+               IsActive = customerRequest.IsActive               
+            };
+
+            _dataAccess.AddNewCustomer(newCustomer);
+        }
+
+
+        public void UpdateCustomer(CustomerEntity customerRequest)
+        {         
+
+            var newCustomer = new customer()
+            {
+                Address = customerRequest.Address,
+                CompanyName = customerRequest.CompanyName,
+                CustomerId = customerRequest.CustomerId,
+                DisplayName = customerRequest.DisplayName,
+                IsActive = customerRequest.IsActive
+            };
+
+            _dataAccess.UpdateCustomer(newCustomer);
+        }
     }
 }

@@ -11,11 +11,19 @@ namespace DataAccess
     public class DataAccessClass : IDataAccessClass
     {
         private readonly TableBookingModel _context;
+        private string _customerId = string.Empty;
 
         public DataAccessClass(TableBookingModel context)
         {
             _context = context;
         }
+
+        public DataAccessClass(TableBookingModel context, string customerId)
+        {
+            _customerId = customerId;
+            _context = context;
+        }
+
         public void AddNewUser(user user)
         {
             _context.users.Add(user);
@@ -53,7 +61,8 @@ namespace DataAccess
                 customerBooking.PhoneNumber = bookingRequest.PhoneNumber ?? customerBooking.PhoneNumber;
                 customerBooking.BookedBy = bookingRequest.BookedBy ?? customerBooking.BookedBy;
                 customerBooking.EndTime = bookingRequest.EndTime ?? customerBooking.EndTime;
-                customerBooking.hasArrived = bookingRequest.hasArrived;
+                customerBooking.HasArrived = bookingRequest.HasArrived;
+                customerBooking.CustomerId = _customerId;
                 if (bookingRequest.bookedtables != null)
                 {
                     _context.bookedtables.RemoveRange(customerBooking.bookedtables);
@@ -67,14 +76,14 @@ namespace DataAccess
 
         public List<booking> GetBookingOnDate(DateTime bookingDate)
         {
-            var bookingList = (from b in _context.bookings where b.BookingDate == bookingDate.Date select b).ToList();
+            var bookingList = (from b in _context.bookings where b.BookingDate == bookingDate.Date && b.CustomerId.Equals(_customerId) select b).ToList();
 
             return bookingList;
         }
 
         public List<tableinfo> GetTableList()
         {
-            var tableList = (from t in _context.tableinfoes where t.IsDeleted == false select t).ToList();
+            var tableList = (from t in _context.tableinfoes where t.IsDeleted == false && t.CustomerId.Equals(_customerId) select t).ToList();
 
             return tableList;
         }
@@ -89,7 +98,7 @@ namespace DataAccess
         public void AddUpdateTable(tableinfo tableRequest)
         {
 
-            var table = _context.tableinfoes.FirstOrDefault(t => t.TableNumber == tableRequest.TableNumber);
+            var table = _context.tableinfoes.FirstOrDefault(t => t.TableNumber == tableRequest.TableNumber && t.CustomerId.Equals(_customerId));
             if (table == null)
             {
                 _context.tableinfoes.Add(tableRequest);
@@ -103,6 +112,7 @@ namespace DataAccess
                 table.IsBookable = tableRequest.IsBookable;
                 table.Capacity = tableRequest.Capacity;
                 table.IsDeleted = false;
+                table.CustomerId = _customerId;
             }
             _context.SaveChanges();
         }        
@@ -116,7 +126,7 @@ namespace DataAccess
         public void HasArrivedCustomer(string bookingId)
         {
             var customerBooking = _context.bookings.FirstOrDefault(b => b.BookingId.Equals(bookingId, StringComparison.OrdinalIgnoreCase));
-            customerBooking.hasArrived = true;
+            customerBooking.HasArrived = true;
             _context.SaveChanges();
         }
 
@@ -129,7 +139,7 @@ namespace DataAccess
                 BookingId=customerBooking.BookingId,
                 BookedBy = customerBooking.BookedBy,
                 BookingDate = customerBooking.BookingDate,
-                hasArrived = customerBooking.hasArrived,
+                HasArrived = customerBooking.HasArrived,
                 Email = customerBooking.Email,
                 EndTime = customerBooking.EndTime,
                 FirstName = customerBooking.FirstName,
@@ -137,12 +147,13 @@ namespace DataAccess
                 Notes = customerBooking.Notes,
                 NumberOfGuests = customerBooking.NumberOfGuests,
                 PhoneNumber = customerBooking.PhoneNumber,
-                StartTime = customerBooking.StartTime
+                StartTime = customerBooking.StartTime,
+                CustomerId = customerBooking.CustomerId
             };
 
             foreach(var table in customerBooking.bookedtables)
             {
-                archiveCustomerBooking.bookedtables += table.TableNumber + ",";
+                archiveCustomerBooking.Bookedtables += table.TableNumber + ",";
                 _context.bookedtables.Remove(table);
             }
 
@@ -155,6 +166,34 @@ namespace DataAccess
         {
             var removedTable = _context.tableinfoes.FirstOrDefault(t => t.TableNumber==tableNumber);
             removedTable.IsDeleted = true;
+            _context.SaveChanges();
+        }
+
+        public customer GetLoggedInCustomer(string customerId)
+        {
+            return _context.customers.FirstOrDefault(c => c.CustomerId.Equals(customerId));
+        }
+
+        public void AddNewCustomer(customer customer)
+        {
+            _context.customers.Add(customer);
+            _context.SaveChanges();
+        }
+
+        public void UpdateCustomer(customer customer)
+        {
+            var existingCustomer = _context.customers.FirstOrDefault(c => c.CustomerId.Equals(customer.CustomerId));
+            if (existingCustomer == null)
+            {
+                throw new Exception("Customer not found!");
+            }
+            else
+            {
+                existingCustomer.CompanyName = customer.CompanyName ?? existingCustomer.CompanyName;
+                existingCustomer.DisplayName = customer.DisplayName ?? existingCustomer.DisplayName;
+                existingCustomer.Address = customer.Address ?? existingCustomer.Address;
+                existingCustomer.IsActive = customer.IsActive;
+            }
             _context.SaveChanges();
         }
     }

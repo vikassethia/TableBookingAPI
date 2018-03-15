@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Model;
+using Entities;
 
 namespace BusinessLogic
 {
@@ -12,5 +13,7 @@ namespace BusinessLogic
     {
         bool IsUserAuthorized(string userId, string password, out UserRequest userIdentity);
         void AddNewUser(UserRequest userRequest);
+        void AddNewCustomer(CustomerEntity customerRequest);
+        void UpdateCustomer(CustomerEntity customerRequest);
     }
 }

@@ -18,6 +18,8 @@ namespace DataAccess.Model
         [StringLength(50)]
         public string LastName { get; set; }
 
+        public string CustomerId { get; set; }
+
         [Required]
         [StringLength(255)]
         public string PasswordHash { get; set; }
@@ -34,5 +36,7 @@ namespace DataAccess.Model
         public DateTime AddeddOn { get; set; }
 
         public virtual userrole userrole { get; set; }
+
+        public virtual customer customer { get; set; }
     }
 }

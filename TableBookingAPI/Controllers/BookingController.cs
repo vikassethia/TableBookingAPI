@@ -16,7 +16,16 @@ namespace TableBookingAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BookingController : ApiController
     {
-        private IBookingLogic _bookingBL = new BookingLogic();
+        private IBookingLogic _bookingBL;
+
+        public BookingController()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var customerClaim = identity.Claims.FirstOrDefault(c => c.Type.Equals("customerid"));
+            var customerId = (customerClaim == null) ? "ricora" : customerClaim.Value;
+            _bookingBL = new BookingLogic(customerId);
+
+        }
 
         /// <summary>
         /// Book table in restaurant
@@ -94,7 +103,6 @@ namespace TableBookingAPI.Controllers
 
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
                 var response = _bookingBL.GetBookingOnDate(bookingDateRequest);
                 return response;
             }
@@ -186,7 +194,6 @@ namespace TableBookingAPI.Controllers
 
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
                 var response = _bookingBL.GetBookingStatus(bookingDateRequest, timeSpanInMinutes);
                 return response;
             }

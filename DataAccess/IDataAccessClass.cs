@@ -19,5 +19,8 @@ namespace DataAccess
         void HasArrivedCustomer(string bookingId);
         void ArchiveDeleteBooking(string bookingId);
         void RemoveTable(int tableNumber);
+        customer GetLoggedInCustomer(string customerId);
+        void AddNewCustomer(customer customer);
+        void UpdateCustomer(customer customer);
     }     
 }

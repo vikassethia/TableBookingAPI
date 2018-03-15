@@ -13,10 +13,18 @@ namespace BusinessLogic
     {
         private IDataAccessClass _dataAccess;
         private TableBookingModel _context = new TableBookingModel();
+        private string _customerId = string.Empty;
         public BookingLogic()
         {
             _dataAccess = new DataAccessClass(_context);
         }
+
+        public BookingLogic(string customerId)
+        {
+            _customerId = customerId;
+            _dataAccess = new DataAccessClass(_context, customerId);
+        }
+
         public void AddUpdateBooking(BookingEntity bookingRequest)
         {
             bookingRequest.BookingId = Guid.NewGuid().ToString();
@@ -34,7 +42,8 @@ namespace BusinessLogic
                 NumberOfGuests = bookingRequest.NumberOfGuests,
                 PhoneNumber = bookingRequest.PhoneNumber,
                 StartTime = bookingRequest.StartTime,
-                hasArrived=bookingRequest.hasArrived
+                HasArrived=bookingRequest.hasArrived,
+                CustomerId=_customerId
             };
 
             foreach(var table in bookingRequest.TableNumbers)
@@ -68,7 +77,7 @@ namespace BusinessLogic
                     NumberOfGuests = item.NumberOfGuests,
                     PhoneNumber = item.PhoneNumber,
                     StartTime = item.StartTime,
-                    hasArrived=item.hasArrived,
+                    hasArrived=item.HasArrived,
                     TableNumbers = new List<TableInfoEntity>()
                 };
 
@@ -173,7 +182,8 @@ namespace BusinessLogic
                 Yposition = tableRequest.Yposition,
                 TableNumber = tableRequest.TableNumber,
                 TableName = tableRequest.TableName,
-                ShapeId=tableRequest.ShapeId
+                ShapeId=tableRequest.ShapeId,
+                CustomerId=_customerId
             };           
 
             _dataAccess.AddUpdateTable(newTableDetails);

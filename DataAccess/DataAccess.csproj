@@ -89,6 +89,7 @@
     <Compile Include="Model\TableBookingModel.cs" />
     <Compile Include="Model\tableinfo.cs" />
     <Compile Include="Model\tableshape.cs" />
+    <Compile Include="Model\customer.cs" />
     <Compile Include="Model\user.cs" />
     <Compile Include="Model\userrole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

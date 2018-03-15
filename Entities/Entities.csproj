@@ -43,6 +43,7 @@
     <Compile Include="BookingStatus.cs" />
     <Compile Include="BookingEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomerEntity.cs" />
     <Compile Include="TableShapeEntity.cs" />
     <Compile Include="TableInfoEntity.cs" />
     <Compile Include="TableStatus.cs" />

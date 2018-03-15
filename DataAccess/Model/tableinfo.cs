@@ -16,7 +16,8 @@ namespace DataAccess.Model
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int TableId { get; set; }
+                
         public int TableNumber { get; set; }
 
         [StringLength(50)]
@@ -30,6 +31,8 @@ namespace DataAccess.Model
 
         public double? Yposition { get; set; }
 
+        public string CustomerId { get; set; }
+
         [Column(TypeName = "bit")]
         public bool IsBookable { get; set; }
 
@@ -40,5 +43,7 @@ namespace DataAccess.Model
         public virtual ICollection<bookedtable> bookedtables { get; set; }
 
         public virtual tableshape tableshape { get; set; }
+
+        public virtual customer customer { get; set; }
     }
 }

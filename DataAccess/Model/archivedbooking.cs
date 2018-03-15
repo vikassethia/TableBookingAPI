@@ -45,13 +45,15 @@ namespace DataAccess.Model
 
         public TimeSpan? EndTime { get; set; }
 
+        public string CustomerId { get; set; }
+
         [StringLength(64)]
         public string BookedBy { get; set; }
 
         [StringLength(50)]
-        public string bookedtables { get; set; }
+        public string Bookedtables { get; set; }
 
         [Column(TypeName = "bit")]
-        public bool hasArrived { get; set; }
+        public bool HasArrived { get; set; }
     }
 }

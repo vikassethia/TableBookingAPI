@@ -16,7 +16,15 @@ namespace TableBookingAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TableController : ApiController
     {
-        private IBookingLogic _bookingBL = new BookingLogic();
+        private IBookingLogic _bookingBL;
+
+        public TableController()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var customerClaim = identity.Claims.FirstOrDefault(c => c.Type.Equals("customerid"));
+            var customerId = (customerClaim == null) ? "ricora" : customerClaim.Value;
+            _bookingBL = new BookingLogic(customerId);
+        }
 
         /// <summary>
         ///  Get list of tables available for book
@@ -29,7 +37,7 @@ namespace TableBookingAPI.Controllers
         {
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
+               
                 var response = _bookingBL.GetTablesList();
                 return response;
             }
@@ -58,7 +66,6 @@ namespace TableBookingAPI.Controllers
         {
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
                 var response = _bookingBL.GetTableShapes();
                 return response;
             }
@@ -86,8 +93,6 @@ namespace TableBookingAPI.Controllers
 
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
-
                 _bookingBL.AddUpdateTable(tableRequest);
 
             }
@@ -123,9 +128,7 @@ namespace TableBookingAPI.Controllers
             { return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new ArgumentNullException(nameof(tableNumber))); }
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
-
-                _bookingBL.RemoveTable(requestedTable);
+               _bookingBL.RemoveTable(requestedTable);
 
             }
             catch (DbException ex)
@@ -162,7 +165,6 @@ namespace TableBookingAPI.Controllers
         {
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
                 var response = _bookingBL.GetTableStatusOnDate(requestedDate, timeSpanInMinutes);
                 return response;
             }

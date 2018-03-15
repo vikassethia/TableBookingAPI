@@ -18,6 +18,7 @@ namespace DataAccess.Model
         public virtual DbSet<tableshape> tableshapes { get; set; }
         public virtual DbSet<userrole> userroles { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<customer> customers { get; set; }
         public virtual DbSet<archivedbooking> archivedbookings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -118,7 +119,7 @@ namespace DataAccess.Model
                 .IsUnicode(false);
 
             modelBuilder.Entity<archivedbooking>()
-                .Property(e => e.bookedtables)
+                .Property(e => e.Bookedtables)
                 .IsUnicode(false);           
         }
     }

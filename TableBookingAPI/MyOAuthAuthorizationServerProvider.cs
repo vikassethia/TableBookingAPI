@@ -23,7 +23,8 @@ namespace TableBookingAPI
             {
                 identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
                 identity.AddClaim(new Claim("username", "admin"));
-                identity.AddClaim(new Claim(ClaimTypes.Name, "Vikas Sethia"));
+                identity.AddClaim(new Claim("customerid", "ricora"));
+                identity.AddClaim(new Claim(ClaimTypes.Name, "admin"));
                 context.Validated(identity);
                 return;
             }
@@ -36,6 +37,7 @@ namespace TableBookingAPI
                 identity.AddClaim(new Claim(ClaimTypes.Name, userIdentity.UserId));
                 identity.AddClaim(new Claim(ClaimTypes.GivenName, userIdentity.FirstName));
                 identity.AddClaim(new Claim(ClaimTypes.Surname, userIdentity.LastName));
+                identity.AddClaim(new Claim("customerid", userIdentity.CustomerId));
                 context.Validated(identity);
             }
             else

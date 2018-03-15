@@ -41,6 +41,8 @@ namespace DataAccess.Model
 
         public TimeSpan? EndTime { get; set; }
 
+        public string CustomerId { get; set; }
+
         [StringLength(64)]
         public string BookedBy { get; set; }
 
@@ -48,6 +50,8 @@ namespace DataAccess.Model
         public virtual ICollection<bookedtable> bookedtables { get; set; }
 
         [Column(TypeName = "bit")]
-        public bool hasArrived { get; set; }
+        public bool HasArrived { get; set; }
+
+        public virtual customer customer { get; set; }
     }
 }
