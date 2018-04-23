@@ -15,5 +15,7 @@ namespace BusinessLogic
         void AddNewUser(UserRequest userRequest);
         void AddNewCustomer(CustomerEntity customerRequest);
         void UpdateCustomer(CustomerEntity customerRequest);
+        List<CustomerEntity> GetCustomerList();
+        List<UserEntity> GetUserList();
     }
 }

@@ -16,7 +16,16 @@ namespace TableBookingAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
-        private IAuth _userBL = new Auth();
+        private IAuth _userBL;
+
+        public UserController()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var customerClaim = identity.Claims.FirstOrDefault(c => c.Type.Equals("customerid"));
+            var customerId = (customerClaim == null) ? "ricora" : customerClaim.Value;
+            _userBL = new Auth(customerId);
+
+        }
 
         /// <summary>
         /// 
@@ -152,5 +161,65 @@ namespace TableBookingAPI.Controllers
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }
+
+
+        /// <summary>
+        ///  Get list of registered customers of booking software
+        /// </summary>
+        /// <returns> list of customer object</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/customer/get")]
+        public List<CustomerEntity> GetCustomers()
+        {
+            try
+            {
+
+                var response = _userBL.GetCustomerList();
+                return response;
+            }
+            catch (DbException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
+            }
+            catch (DuplicateNameException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
+            }
+        }
+
+        /// <summary>
+        ///  Get list of registered users of logged-in customer
+        /// </summary>
+        /// <returns> list of user object</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/user/get")]
+        public List<UserEntity> GetUsers()
+        {
+            try
+            {
+
+                var response = _userBL.GetUserList();
+                return response;
+            }
+            catch (DbException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
+            }
+            catch (DuplicateNameException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
+            }
+        }
+
     }
 }

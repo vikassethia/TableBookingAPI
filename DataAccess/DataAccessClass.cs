@@ -196,5 +196,19 @@ namespace DataAccess
             }
             _context.SaveChanges();
         }
+
+        public List<customer> GetCustomerList()
+        {
+            var customerList = (from t in _context.customers select t).ToList();
+
+            return customerList;
+        }
+
+        public List<user> GetUserList()
+        {
+            var userList = (from t in _context.users where t.CustomerId.Equals(_customerId) select t).ToList();
+
+            return userList;
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace TableBookingAPI
             // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=316888
 
             //Enable CORS 
-            app.UseCors(CorsOptions.AllowAll);
+            //app.UseCors(CorsOptions.AllowAll);
 
             var myProvider = new MyOAuthAuthorizationServerProvider();
             OAuthAuthorizationServerOptions options = new OAuthAuthorizationServerOptions()

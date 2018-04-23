@@ -15,10 +15,18 @@ namespace BusinessLogic
     {
         private DataAccessClass _dataAccess;
         private TableBookingModel _context = new TableBookingModel();
+        private string _customerId = string.Empty;
         public Auth()
         {
             _dataAccess = new DataAccessClass(_context);
         }
+
+        public Auth(string customerId)
+        {
+            _customerId = customerId;
+            _dataAccess = new DataAccessClass(_context, customerId);
+        }
+
         public bool IsUserAuthorized(string userId, string password, out UserRequest userIdentity)
         {
             var loggedInUser = _dataAccess.GetLoggedInUser(userId);
@@ -113,6 +121,54 @@ namespace BusinessLogic
             };
 
             _dataAccess.UpdateCustomer(newCustomer);
+        }
+
+        public List<CustomerEntity> GetCustomerList()
+        {
+            var customerList = _dataAccess.GetCustomerList();
+
+            var response = new List<CustomerEntity>();
+
+            foreach (var customer in customerList)
+            {
+                response.Add(
+                    new CustomerEntity()
+                    {
+                        CustomerId = customer.CustomerId,
+                        CompanyName = customer.CompanyName,
+                        DisplayName = customer.DisplayName,
+                        Address = customer.Address,
+                        IsActive = customer.IsActive
+                    }
+                    );
+            }
+
+
+            return response;
+        }
+
+        public List<UserEntity> GetUserList()
+        {
+            var userList = _dataAccess.GetUserList();
+
+            var response = new List<UserEntity>();
+
+            foreach (var userItem in userList)
+            {
+                response.Add(
+                    new UserEntity()
+                    {
+                        UserId = userItem.UserId,
+                        CustomerName = userItem.customer.DisplayName,
+                        FirstName = userItem.FirstName,
+                        LastName = userItem.LastName,
+                        UserRole = userItem.userrole.UserRoleName
+                    }
+                    );
+            }
+
+
+            return response;
         }
     }
 }

@@ -22,5 +22,7 @@ namespace DataAccess
         customer GetLoggedInCustomer(string customerId);
         void AddNewCustomer(customer customer);
         void UpdateCustomer(customer customer);
+        List<customer> GetCustomerList();
+        List<user> GetUserList();
     }     
 }
