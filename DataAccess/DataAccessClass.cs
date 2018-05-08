@@ -153,9 +153,9 @@ namespace DataAccess
 
             foreach(var table in customerBooking.bookedtables)
             {
-                archiveCustomerBooking.Bookedtables += table.TableNumber + ",";
-                _context.bookedtables.Remove(table);
+                archiveCustomerBooking.Bookedtables += table.TableId + ",";                
             }
+            _context.bookedtables.RemoveRange(customerBooking.bookedtables);
 
             _context.archivedbookings.Add(archiveCustomerBooking);
             _context.bookings.Remove(customerBooking);
@@ -164,7 +164,7 @@ namespace DataAccess
 
         public void RemoveTable(int tableNumber)
         {
-            var removedTable = _context.tableinfoes.FirstOrDefault(t => t.TableNumber==tableNumber);
+            var removedTable = _context.tableinfoes.FirstOrDefault(t => t.TableNumber==tableNumber && t.CustomerId.Equals(_customerId));
             removedTable.IsDeleted = true;
             _context.SaveChanges();
         }

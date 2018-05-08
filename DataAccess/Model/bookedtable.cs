@@ -15,7 +15,7 @@ namespace DataAccess.Model
         [StringLength(64)]
         public string BookingId { get; set; }
 
-        public int TableNumber { get; set; }
+        public int TableId { get; set; }
 
         public virtual booking booking { get; set; }
 

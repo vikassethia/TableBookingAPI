@@ -45,12 +45,13 @@ namespace BusinessLogic
                 HasArrived=bookingRequest.hasArrived,
                 CustomerId=_customerId
             };
-
+            var customerTableList = _dataAccess.GetTableList();
             foreach(var table in bookingRequest.TableNumbers)
             {
+                var selectedTable = customerTableList.FirstOrDefault(t => t.TableNumber == table.TableNumber);
                 bookingEntity.bookedtables.Add(new bookedtable() {
                     BookingId=bookingRequest.BookingId.ToString(),
-                    TableNumber=table.TableNumber
+                    TableId= selectedTable.TableId
                 });
             }
 
@@ -84,7 +85,7 @@ namespace BusinessLogic
                 foreach (var t in item.bookedtables)
                 {
                     bookingItem.TableNumbers.Add(new TableInfoEntity() {
-                        TableNumber=t.TableNumber,
+                        TableNumber=t.tableinfo.TableNumber,                        
                         TableName=t.tableinfo.TableName,
                         Capacity=t.tableinfo.Capacity,
                         IsBookable=t.tableinfo.IsBookable,
