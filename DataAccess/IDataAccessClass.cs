@@ -24,5 +24,6 @@ namespace DataAccess
         void UpdateCustomer(customer customer);
         List<customer> GetCustomerList();
         List<user> GetUserList();
+        List<booking> GetAllFutureBooking();
     }     
 }

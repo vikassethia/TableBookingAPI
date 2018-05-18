@@ -19,6 +19,7 @@ namespace BusinessLogic
         List<TableStatus> GetTableStatusOnDate(DateTime requestedDate, int timeSpanInMinutes);
         List<TableStatus> GetTableStatus(List<BookingEntity> bookingList, int timeSpanInMinutes);
         BookingStatus GetBookingStatus(DateTime requestedDate, int timeSpanInMinutes);
+        List<BookingEntity> GetAllfutureBooking();
 
     }
 }

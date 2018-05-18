@@ -121,6 +121,36 @@ namespace TableBookingAPI.Controllers
             
         }
 
+        /// <summary>
+        /// Get all future booking
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/booking/getall")]
+        public List<BookingEntity> GetAllBooking()
+        {
+            
+            try
+            {
+                var response = _bookingBL.GetAllfutureBooking();
+                return response;    
+            }
+            catch (DbException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Connection error"));
+            }
+            catch (DuplicateNameException ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "An unexpected error occured"));
+            }
+
+        }
+
 
         /// <summary>
         /// Mark customer as arrived in restaurant

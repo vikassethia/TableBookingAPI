@@ -47,6 +47,10 @@ namespace DataAccess
 
             if (customerBooking == null)
             {
+                if (bookingRequest.EndTime == null)
+                {
+                    bookingRequest.EndTime = bookingRequest.StartTime.Add(new TimeSpan(2, 0, 0));
+                }
                 _context.bookings.Add(bookingRequest);
             }
             else
@@ -63,6 +67,10 @@ namespace DataAccess
                 customerBooking.EndTime = bookingRequest.EndTime ?? customerBooking.EndTime;
                 customerBooking.HasArrived = bookingRequest.HasArrived;
                 customerBooking.CustomerId = _customerId;
+                if(customerBooking.EndTime==null)
+                {
+                    customerBooking.EndTime = customerBooking.StartTime.Add(new TimeSpan(2, 0, 0));
+                }
                 if (bookingRequest.bookedtables != null)
                 {
                     _context.bookedtables.RemoveRange(customerBooking.bookedtables);
@@ -77,6 +85,14 @@ namespace DataAccess
         public List<booking> GetBookingOnDate(DateTime bookingDate)
         {
             var bookingList = (from b in _context.bookings where b.BookingDate == bookingDate.Date && b.CustomerId.Equals(_customerId) select b).ToList();
+
+            return bookingList;
+        }
+
+        public List<booking> GetAllFutureBooking()
+        {
+            var bookingDate = DateTime.Now.Date;
+            var bookingList = (from b in _context.bookings where b.BookingDate >= bookingDate.Date && b.CustomerId.Equals(_customerId) select b).ToList();
 
             return bookingList;
         }
@@ -209,6 +225,6 @@ namespace DataAccess
             var userList = (from t in _context.users where t.CustomerId.Equals(_customerId) select t).ToList();
 
             return userList;
-        }
+        }        
     }
 }

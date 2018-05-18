@@ -81,6 +81,10 @@ namespace BusinessLogic
                     hasArrived=item.HasArrived,
                     TableNumbers = new List<TableInfoEntity>()
                 };
+                if (item.EndTime == null)
+                {
+                    bookingItem.EndTime = item.StartTime.Add(new TimeSpan(2, 0, 0));
+                }
 
                 foreach (var t in item.bookedtables)
                 {
@@ -96,6 +100,57 @@ namespace BusinessLogic
                 }
                 response.Add(bookingItem);
 
+            }
+
+            return response;
+        }
+
+        public List<BookingEntity> GetAllfutureBooking()
+        {
+            var bookingList = _dataAccess.GetAllFutureBooking();
+
+            var response = new List<BookingEntity>();
+
+            foreach (var item in bookingList)
+            {
+                var endTime = item.EndTime;
+                if (item.EndTime == null)
+                {
+                    endTime = item.StartTime.Add(new TimeSpan(2, 0, 0));
+                }
+                if ((item.BookingDate.Date == DateTime.Now.Date && endTime > new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)) || item.BookingDate.Date > DateTime.Now.Date)
+                { 
+                    var bookingItem = new BookingEntity()
+                    {
+                        BookingDate = item.BookingDate,
+                        BookingId = item.BookingId,
+                        Email = item.Email,
+                        EndTime = endTime,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        Notes = item.Notes,
+                        NumberOfGuests = item.NumberOfGuests,
+                        PhoneNumber = item.PhoneNumber,
+                        StartTime = item.StartTime,
+                        hasArrived = item.HasArrived,
+                        TableNumbers = new List<TableInfoEntity>()
+                    };                    
+
+                    foreach (var t in item.bookedtables)
+                    {
+                        bookingItem.TableNumbers.Add(new TableInfoEntity()
+                        {
+                            TableNumber = t.tableinfo.TableNumber,
+                            TableName = t.tableinfo.TableName,
+                            Capacity = t.tableinfo.Capacity,
+                            IsBookable = t.tableinfo.IsBookable,
+                            Shape = t.tableinfo.tableshape.ShapeName,
+                            Xposition = t.tableinfo.Xposition,
+                            Yposition = t.tableinfo.Yposition
+                        });
+                    }
+                    response.Add(bookingItem);
+                }
             }
 
             return response;
@@ -290,8 +345,7 @@ namespace BusinessLogic
 
             return response;
         }
-
-
+        
     }
 
     
